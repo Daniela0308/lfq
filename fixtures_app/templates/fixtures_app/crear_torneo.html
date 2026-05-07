@@ -1,0 +1,88 @@
+{% extends 'fixtures_app/base.html' %}
+{% block content %}
+<h1>🏆 Crear Torneo</h1>
+
+{% if error %}
+  <p style="color:#e74c3c; margin-bottom:16px;">⚠️ {{ error }}</p>
+{% endif %}
+
+<form method="post" style="display:flex; flex-direction:column; gap:20px;">
+  {% csrf_token %}
+
+  <div>
+    <label>Nombre del torneo</label><br>
+    <input name="nombre" required style="width:100%; padding:10px; border-radius:8px;
+           background:#1e2d3d; border:1px solid #2d6a9f; color:white; margin-top:6px;">
+  </div>
+
+  <div>
+    <label>Fecha de inicio</label><br>
+    <input name="fecha_inicio" type="date" required style="width:100%; padding:10px;
+           border-radius:8px; background:#1e2d3d; border:1px solid #2d6a9f;
+           color:white; margin-top:6px;">
+  </div>
+
+  <div>
+    <label>Selecciona equipos (mín. 4, máx. 24):</label>
+    <p style="color:#aaa; font-size:.85rem; margin:4px 0 12px;">
+      Equipos seleccionados: <span id="contador">0</span>
+    </p>
+    <div style="display:grid; grid-template-columns: repeat(auto-fill, minmax(220px,1fr));
+                gap:10px; background:#1e2d3d; padding:16px; border-radius:12px;">
+      {% for equipo in equipos %}
+      <label style="display:flex; align-items:center; gap:10px; cursor:pointer;
+                    background:#0f1923; padding:10px; border-radius:8px;
+                    transition: background 0.2s;"
+             onmouseover="this.style.background='#1a3a5c'"
+             onmouseout="this.style.background='#0f1923'">
+
+        <input type="checkbox" name="equipos" value="{{ equipo.id }}"
+               onchange="actualizarContador(); toggleSeleccionado(this)">
+
+        <!-- LOGO o emoji si no tiene -->
+        {% if equipo.logo %}
+          <img src="{{ equipo.logo.url }}" width="38" height="38"
+               style="border-radius:50%; object-fit:cover; border:2px solid #2d6a9f; flex-shrink:0;">
+        {% else %}
+          <span style="font-size:1.8rem; width:38px; text-align:center; flex-shrink:0;">⚽</span>
+        {% endif %}
+
+        <!-- Nombre y ciudad -->
+        <div style="display:flex; flex-direction:column;">
+          <span style="font-weight:bold;">{{ equipo.nombre }}</span>
+          {% if equipo.ciudad %}
+            <small style="color:#aaa;">{{ equipo.ciudad }}</small>
+          {% endif %}
+        </div>
+
+      </label>
+      {% endfor %}
+    </div>
+  </div>
+
+  <div>
+    <button type="submit" class="btn btn-success" style="font-size:1.1rem; padding:14px 32px;">
+      ⚽ Generar Fixture
+    </button>
+  </div>
+</form>
+
+<script>
+  function actualizarContador() {
+    const total = document.querySelectorAll('input[name="equipos"]:checked').length;
+    document.getElementById('contador').textContent = total;
+  }
+
+  function toggleSeleccionado(checkbox) {
+    // Resalta la tarjeta cuando está seleccionada
+    const label = checkbox.closest('label');
+    if (checkbox.checked) {
+      label.style.background = '#1a3a5c';
+      label.style.border = '1px solid #7ec8e3';
+    } else {
+      label.style.background = '#0f1923';
+      label.style.border = 'none';
+    }
+  }
+</script>
+{% endblock %}

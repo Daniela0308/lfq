@@ -1,0 +1,78 @@
+{% extends 'fixtures_app/base.html' %}
+{% block content %}
+
+<div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
+  <h1>📋 {{ torneo.nombre }}</h1>
+  <div style="display:flex; gap:10px;">
+    <a href="{% url 'exportar_pdf' torneo.id %}" class="btn btn-danger">⬇️ PDF</a>
+    <a href="{% url 'exportar_excel' torneo.id %}" class="btn btn-success">⬇️ Excel</a>
+    <a href="{% url 'crear_torneo' %}" class="btn btn-primary">+ Nuevo</a>
+  </div>
+</div>
+
+<p style="color:#aaa; margin: -12px 0 28px;">
+  {{ torneo.equipos.count }} equipos · Inicio: {{ torneo.fecha_inicio }}
+</p>
+
+{% for jornada in jornadas %}
+<div style="background:#1e2d3d; border-radius:12px; padding:20px; margin-bottom:20px;">
+  <h2 style="margin-bottom:14px;">📅 Jornada {{ jornada.numero }}</h2>
+  <table style="width:100%; border-collapse:collapse;">
+    <thead>
+      <tr style="background:#1a3a5c; color:#7ec8e3;">
+        <th style="padding:10px; text-align:right;">Local</th>
+        <th style="padding:10px; width:60px; text-align:center;">VS</th>
+        <th style="padding:10px; text-align:left;">Visitante</th>
+        <th style="padding:10px; text-align:center;">Fecha</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for partido in jornada.partidos.all %}
+      <tr style="border-bottom:1px solid #2d4a6a;
+                 {% if forloop.counter|divisibleby:2 %}background:#162336;{% endif %}">
+
+        <!-- EQUIPO LOCAL (derecha → logo) -->
+        <td style="padding:12px; text-align:right;">
+          <div style="display:flex; align-items:center; justify-content:flex-end; gap:10px;">
+            <span style="font-weight:bold;">{{ partido.equipo_local }}</span>
+            {% if partido.equipo_local.logo %}
+              <img src="{{ partido.equipo_local.logo.url }}" width="36" height="36"
+                   style="border-radius:50%; object-fit:cover; border:2px solid #2d6a9f; flex-shrink:0;">
+            {% else %}
+              <span style="font-size:1.6rem;">⚽</span>
+            {% endif %}
+          </div>
+        </td>
+
+        <!-- VS -->
+        <td style="padding:12px; text-align:center;">
+          <span style="background:#0f1923; color:#7ec8e3; font-weight:bold;
+                       padding:4px 10px; border-radius:6px; font-size:.9rem;">VS</span>
+        </td>
+
+        <!-- EQUIPO VISITANTE (logo → derecha) -->
+        <td style="padding:12px; text-align:left;">
+          <div style="display:flex; align-items:center; gap:10px;">
+            {% if partido.equipo_visitante.logo %}
+              <img src="{{ partido.equipo_visitante.logo.url }}" width="36" height="36"
+                   style="border-radius:50%; object-fit:cover; border:2px solid #2d6a9f; flex-shrink:0;">
+            {% else %}
+              <span style="font-size:1.6rem;">⚽</span>
+            {% endif %}
+            <span style="font-weight:bold;">{{ partido.equipo_visitante }}</span>
+          </div>
+        </td>
+
+        <!-- FECHA -->
+        <td style="padding:12px; text-align:center; color:#aaa;">
+          {{ partido.fecha|default:"-" }}
+        </td>
+
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endfor %}
+
+{% endblock %}
