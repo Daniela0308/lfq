@@ -1,0 +1,60 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/teams.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<div class="teams-header">  
+    <div>
+        <h1>Equipos</h1>
+    </div>
+    <a href="/admin/fixtures_app/team/add/" class="btn btn-primary">+ Nuevo equipo</a>
+</div>
+
+<div id="grid" class="grid-equipos">
+</div>
+
+<script src="{% static 'js/teams/teams.js' %}"></script>
+
+{% endblock %}
+{% comment %} 
+<div id="grid" class="grid-equipos">
+  {% for team in teams_list %}
+
+    <div class="eq-card">
+        <div class="eq-franja"></div>
+        <div class="eq-content">
+        {% if team.logo %}
+            <img src="{{ team.logo.url }}" class="eq-avatar">
+        {% else %}
+            <div class="eq-avatar">
+            {{ team.name|slice:":2"|upper }} 
+            </div>
+        {% endif %}
+        <p class="eq-nombre">
+            {{ team.name }}
+        </p>
+        {% if team.city %}
+        <p class="eq-ciudad">
+            📍 {{ team.city }}
+        </p>
+        {% endif %}
+        <div class="eq-acciones">
+            <button class="eq-btn">
+            ✏️
+            </button>
+            <button class="eq-btn">
+            👁️
+            </button>
+        </div>
+        </div>
+    </div>
+    
+  {% endfor %}
+</div>
+
+{% endblock %}
+ {% endcomment %}

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1"
+    >
+    <title>Torneos LFQ</title>
+    {% load static %}
+    <link
+        rel="stylesheet"
+        href="{% static 'css/style.css' %}"
+    >
+    {% block extra_css %}
+    {% endblock %}
+</head>
+
+<body>
+    <header>
+        <nav>
+            <span>LFQ</span>
+            <div>
+                <a href="">Torneos</a>
+                <a href="">Equipos</a>
+            </div>
+        </nav>
+
+        <!-- FRANJA QUINDÍO -->
+        <div class="quindio-bar">
+            <div class="green"></div>
+            <div class="yellow"></div>
+            <div class="wine"></div>
+        </div>
+    </header>
+
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
+
+</body>
+</html>

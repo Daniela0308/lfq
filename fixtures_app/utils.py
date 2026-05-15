@@ -1,30 +1,30 @@
-def generar_fixture(equipos):
+def generate_fixture(teams):
     """
     Algoritmo Round-Robin.
-    Recibe lista de objetos Equipo.
-    Retorna lista de jornadas, cada jornada es lista de tuplas (local, visitante).
+    Recibe la lista de objetos de un torneo (los equipos)
+    Retorna la lista de jornadas, cada jornada es lista de tuplas (local, visitante).
     """
-    equipos = list(equipos)
-    n = len(equipos)
+    teams = list(teams) #pasamos los objetos a una lista
+    n = len(teams) #calculamos la cantidad
 
-    # Si número impar, agrega un "descanso"
+    # Si número impar, agrega un None -> un equipo debe descansar si la cantidad es impar
     if n % 2 != 0:
-        equipos.append(None)
+        teams.append(None)
         n += 1
 
-    total_jornadas = n - 1
-    partidos_por_jornada = n // 2
-    jornadas = []
+    total_matchday = n - 1 #si son 10 equipos, se juegan 9 fechas
+    matches_of_day = n // 2  #si son 10 equipos se juegan 5 partidos en esa jornada
+    matchday = []
 
-    for jornada in range(total_jornadas):
-        partidos = []
-        for i in range(partidos_por_jornada):
-            local    = equipos[i]
-            visitante = equipos[n - 1 - i]
-            if local is not None and visitante is not None:
-                partidos.append((local, visitante))
-        jornadas.append(partidos)
+    for j in range(total_matchday):
+        maches = []
+        for i in range(matches_of_day):
+            local_team = teams[i]
+            away_team = teams[n - 1 - i]
+            if local_team is not None and away_team is not None:
+                maches.append((local_team, away_team))
+        matchday.append(maches)
         # Rotar todos menos el primero
-        equipos = [equipos[0]] + [equipos[-1]] + equipos[1:-1]
+        teams = [teams[0]] + [teams[-1]] + teams[1:-1]
 
-    return jornadas
+    return matchday
