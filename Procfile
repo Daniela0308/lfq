@@ -1,0 +1,1 @@
+web: gunicorn LFQ.wsgi --log-file -
