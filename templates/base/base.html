@@ -1,46 +1,57 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
 <html lang="es">
-
 <head>
-    {% load static %}
+
     <meta charset="UTF-8">
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1"
-    >
-    <title>Torneos LFQ</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Liga Fútbol Quindío</title>
     {% load static %}
-    <link
-        rel="stylesheet"
-        href="{% static 'css/style.css' %}"
-    >
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
     {% block extra_css %}
     {% endblock %}
 </head>
 
 <body>
-    <header>
-        <nav>
-            <span>LFQ</span>
-            <div>
-                <a href="">Torneos</a>
-                <a href="">Equipos</a>
+    <div class="app">
+        <!-- SIDEBAR -->
+        <aside class="sidebar">
+
+            <div class="sidebar-header">
+                <div class="sidebar-logo">
+                    <div class="logo-circle">LFQ</div>
+                    <div>
+                        <div class="sidebar-title">Liga de Futbol</div>
+                        <div class="sidebar-sub">Quindío, Colombia</div>
+                    </div>
+                </div>
+                <div class="sidebar-season">
+                    Temporada 2026
+                </div>
             </div>
-        </nav>
 
-        <!-- FRANJA QUINDÍO -->
-        <div class="quindio-bar">
-            <div class="green"></div>
-            <div class="yellow"></div>
-            <div class="wine"></div>
-        </div>
-    </header>
+            <nav class="sidebar-menu">
+                <p class="menu-label">MENU</p>
+                <a href="{% url 'home' %}"
+                   class="menu-item {% if request.resolver_match.url_name == 'home' %}active{% endif %}">
+                    <span class="menu-icon">🏠</span>
+                    Inicio
+                </a>
+                <a href="{% url 'teams_list' %}"
+                   class="menu-item {% if request.resolver_match.url_name == 'teams_list' %}active{% endif %}">
+                    <span class="menu-icon">👥</span>
+                    Equipos
+                </a>
+            </nav>
 
-    <main>
-        {% block content %}
-        {% endblock %}
-    </main>
+        </aside>
+        <!-- CONTENIDO -->
+        <main class="main">
+            {% block content %}
+            {% endblock %}
+        </main>
+
+    </div>
 
 </body>
 </html>

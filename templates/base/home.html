@@ -1,0 +1,109 @@
+{% extends 'base/base.html' %}
+
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/home.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<div class="main-header">
+    <div class="main-header-top">
+        <div class="main-accent">
+        <span style="background:#2E7D32;"></span>
+        <span style="background:#F9A825;"></span>
+        <span style="background:#7B1A2E;"></span>
+        </div>
+        <div>
+        <h1 class="main-title">Liga de Futbol del Quindio</h1>
+        <p class="main-sub">Panel de administracion de torneos y equipos</p>
+        </div>
+    </div>
+</div>
+
+<!-- STATS -->
+<div class="stats-grid">
+    <div class="stat-card">
+        <div class="stat-top"><span class="stat-label">Equipos</span><span class="stat-icon">👥</span></div>
+        <p class="stat-n">{{ total_equipos }}</p>
+        <p class="stat-desc">Equipos registrados</p>
+    </div>
+    <div class="stat-card">
+        <div class="stat-top"><span class="stat-label">Torneos</span><span class="stat-icon">🏆</span></div>
+        <p class="stat-n">{{ total_torneos }}</p>
+        <p class="stat-desc">{{ torneos_activos }} activo</p>
+    </div>
+    <div class="stat-card">
+        <div class="stat-top"><span class="stat-label">Partidos</span><span class="stat-icon">📅</span></div>
+        <p class="stat-n">{{ total_partidos }}</p>
+        <p class="stat-desc">Total programados</p>
+    </div>
+    <div class="stat-card">
+        <div class="stat-top"><span class="stat-label">En Curso</span><span class="stat-icon">📈</span></div>
+        <p class="stat-n">{{ torneos_activos }}</p>
+        <p class="stat-desc">Torneos activos</p>
+    </div>
+</div>
+
+{% endblock %}
+
+
+{% comment %} 
+<!-- PRÓXIMOS PARTIDOS Y RESULTADOS -->
+<div class="two-col">
+  <div class="panel">
+    <div class="panel-header">
+      <span class="panel-title">Proximos Partidos</span>
+      <a href="{% url 'teams_list' %}" class="panel-link">Ver todos</a>
+    </div>
+    {% for partido in proximos_partidos %}
+    <div class="match-item">
+      <div>
+        <p class="match-teams">{{ partido.home_team }} vs {{ partido.away_team }}</p>
+        <p class="match-meta">{{ partido.matchday.tournament.name }} · {{ partido.date }}</p>
+      </div>
+      <span class="match-time">{{ partido.time|default:"--:--" }}</span>
+    </div>
+    {% empty %}
+    <p style="color:#5a7a5c; font-size:12px; padding:10px 0;">No hay partidos próximos</p>
+    {% endfor %}
+  </div>
+
+  <div class="panel">
+    <div class="panel-header">
+      <span class="panel-title">Resultados Recientes</span>
+      <a href="{% url 'teams_list' %}" class="panel-link">Ver todos</a>
+    </div>
+    {% for partido in resultados_recientes %}
+    <div class="match-item">
+      <div>
+        <p class="match-teams">
+          {{ partido.home_team }}
+          <span class="result-score">{{ partido.home_score }} - {{ partido.away_score }}</span>
+          {{ partido.away_team }}
+        </p>
+        <p class="match-meta">{{ partido.matchday.tournament.name }} · Fecha {{ partido.matchday.number }}</p>
+      </div>
+      <span class="badge-final">Finalizado</span>
+    </div>
+    {% empty %}
+    <p style="color:#5a7a5c; font-size:12px; padding:10px 0;">No hay resultados aún</p>
+    {% endfor %}
+  </div>
+</div>
+
+
+{% endblock %}
+
+{% comment %} <!-- ACCIONES RÁPIDAS -->
+<div class="acciones-panel">
+  <p class="acciones-title">Acciones Rapidas</p>
+  <div class="acciones-btns">
+    <a href="{% url 'crear_equipo' %}"  class="btn btn-green">👥 Nuevo Equipo</a>
+    <a href="{% url 'crear_torneo' %}"  class="btn btn-purple">🏆 Nuevo Torneo</a>
+    <a href="{% url 'lista_equipos' %}" class="btn btn-outline">Ver Equipos</a>
+    <a href="{% url 'lista_torneos' %}" class="btn btn-outline">Ver Torneos</a>
+  </div>
+</div>
+ {% endcomment %} 
