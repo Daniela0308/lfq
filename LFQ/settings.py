@@ -12,6 +12,11 @@ ALLOWED_HOSTS = [
     'localhost',
     '127.0.0.1',
     '.onrender.com',
+    'app.lifutbolquindio.com',
+]
+
+CSRF_TRUSTED_ORIGINS = [
+    'https://app.lifutbolquindio.com',
 ]
 
 # ── Apps ───────────────────────────────────────────────────────

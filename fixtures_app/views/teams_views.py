@@ -1,10 +1,13 @@
 #Renderizar HTML, redireccionar y generar erro si un objeto no existe
 #from django.shortcuts import render
+from email.mime import message
+
 from django.views import generic
 from django.urls import reverse_lazy
 
 #Imports propios
 from ..models.teams import Team
+from ..forms.teams_forms import TeamForm
 
 #Listado de equipos
 class TeamsListView(generic.TemplateView):
@@ -16,9 +19,15 @@ class TeamsListView(generic.TemplateView):
         return {'teams_list': teams_list}
         
 #Creación de equipos
+class TeamCreateView(generic.CreateView):
+    model = Team
+    form_class = TeamForm
+    template_name = 'teams/create_team.html'
+    success_url = reverse_lazy('teams')
 
-
-
+  
+        
+    
 
 
 """ #Lista de equipos
