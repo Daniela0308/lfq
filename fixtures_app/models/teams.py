@@ -1,7 +1,7 @@
 from django.db import models
 
 class Team(models.Model):
-    name = models.CharField(max_length=100, verbose_name='Nombre')
+    name = models.CharField(max_length=100, verbose_name='Nombre', unique=True) #unique=True para evitar duplicados VERBOSE_NAME para mostrar en el admin
     city = models.CharField(max_length=100, blank=True, verbose_name='Ciudad')
     logo = models.ImageField(upload_to='teams/', blank=True, null=True, verbose_name='Logo')
 

@@ -1,14 +1,18 @@
 {% extends 'base/base.html' %}
 
 {% load static %}
-
 {% block extra_css %}
-<link rel="stylesheet" href="{% static 'css/styles.css' %}">
+<link rel="stylesheet" href="{% static 'css/variables.css' %}">
+<link rel="stylesheet" href="{% static 'css/headers.css' %}">
+<link rel="stylesheet" href="{% static 'css/cards.css' %}">
+<link rel="stylesheet" href="{% static 'css/grids.css' %}">
+<link rel="stylesheet" href="{% static 'css/buttons.css' %}">
+<link rel="stylesheet" href="{% static 'css/forms.css' %}">
 {% endblock %}
 
 {% block content %}
 <div class="flex flex-col gap-6">
-    <!-- Header -->
+    <!-- Cabecera -->
     <div class="flex items-center gap-4">
         <a href="{% url 'teams' %}" class="btn btn-ghost-neutral btn-icon btn">
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
@@ -19,6 +23,7 @@
         </div>
     </div>
 
+    <!-- Formulario de creación -->
     <form method="post", action="{% url 'teams_create' %}" enctype="multipart/form-data" class="flex flex-col gap-6">
         {% csrf_token %}
 
@@ -28,8 +33,18 @@
         <div class="card-content">
             <div class="form-grid">
             <div class="form-group">
+                {% if form.name.errors %}
                 <label for="name">Nombre del Equipo</label>
                 {{ form.name }}
+                <div class="form-error">
+                    {% for error in form.name.errors %}
+                        <p>{{ error }}</p>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <label for="name">Nombre del Equipo</label>
+                {{ form.name }}
+                {% endif %}
             </div>
             <div class="form-group">
                 <label for="city">Ciudad</label>
@@ -42,10 +57,12 @@
             </div>
             </div>
         </div>
+
         <div class="flex gap-3">
         <button type="submit" class="btn btn-primary">Crear Equipo</button>
         <a href="{% url 'teams' %}" class="btn btn-outline">Cancelar</a>
         </div>
     </form>
+
 </div>
 {% endblock %}

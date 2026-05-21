@@ -1,4 +1,5 @@
 from decouple import config
+#import dj_database_url
 from pathlib import Path
 import os
 
@@ -75,7 +76,12 @@ DATABASES = {
         'HOST':     config('DB_HOST'),
         'PORT':     config('DB_PORT', default='5432'),
     }
-}
+} 
+
+""" 
+DATABASES = {
+    'default': dj_database_url.parse('postgresql://lfq_user:wtJtXGmZsVcQJDUi22wtBHRn1JmHHuHG@dpg-d84bprp9rddc739hnapg-a.oregon-postgres.render.com/lfq_db')
+} """
 
 # ── Contraseñas ────────────────────────────────────────────────
 AUTH_PASSWORD_VALIDATORS = [
@@ -104,15 +110,33 @@ CLOUDINARY_STORAGE = {
     'API_SECRET': config('CLOUDINARY_API_SECRET'),
 }
 
-STORAGES = {
-    "default": {
-        "BACKEND": "cloudinary_storage.storage.MediaCloudinaryStorage",
-    },
-    "staticfiles": {
-        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
-    },
-}
+#En local (DEBUG=True) : Las imágenes se guardan en media/
+#En producción (DEBUG=False) : Las imágenes se guardan en Cloudinary
+if DEBUG:
+
+    STORAGES = {
+        "default": {
+            "BACKEND": "django.core.files.storage.FileSystemStorage",
+        },
+
+        "staticfiles": {
+            "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
+        },
+    }
+
+else:
+
+    STORAGES = {
+        "default": {
+            "BACKEND": "cloudinary_storage.storage.MediaCloudinaryStorage",
+        },
+
+        "staticfiles": {
+            "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+        },
+    }
+
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
-DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+#DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'

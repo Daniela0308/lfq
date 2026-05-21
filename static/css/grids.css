@@ -1,0 +1,40 @@
+/*Sistemas de columnas: activamos los sistemas de columnas
+para los diferentes layouts que vamos a usar: cards, form, stats, teams.*/
+.grid-2 { 
+    display: grid; 
+    grid-template-columns: 1fr 1fr; /*50% | 50%*/
+    gap: 1rem; /*Espacio entre columnas y filas.*/
+} /*2 columnas iguales.*/
+
+.grid-4 { 
+    display: grid; 
+    grid-template-columns: repeat(2, 1fr); 
+    gap: 1rem; 
+}
+
+.grid-teams { 
+    display: grid;
+    grid-template-columns: repeat(auto-fill,minmax(260px,1fr));
+    gap: 1rem;
+}
+
+/*si es pc muestra 4 columnas , si es mobile 2 columnas*/
+@media (min-width: 640px) { 
+  .grid-4 { grid-template-columns: repeat(4, 1fr); }
+}
+
+@media (min-width: 1024px) {
+  .grid-2-lg { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+  .grid-3-lg { grid-template-columns: repeat(3, 1fr); }
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+
+@media (min-width: 640px) {
+  .form-grid { grid-template-columns: 1fr 1fr; }
+  .form-grid .col-span-2 { grid-column: span 2; } /*Para que un elemento ocupe las 2 columnas en el móvil.*/
+}
